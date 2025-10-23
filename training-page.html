@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hair Image Labeling Guide</title>
+  <style>
+    :root{
+      --bg:#0b1020;          /* deep blue-black */
+      --panel:#0f172a;       /* slate panel */
+      --muted:#94a3b8;       /* slate-300 */
+      --text:#e5e7eb;        /* gray-200 */
+      --brand:#7c3aed;       /* violet */
+      --brand-2:#22d3ee;     /* cyan */
+      --ok:#22c55e;          /* green */
+      --warn:#f59e0b;        /* amber */
+      --bad:#ef4444;         /* red */
+      --chip:#1e293b;        /* chip bg */
+      --code:#0b1220;        /* code bg */
+      --card:#111827;        /* card bg */
+      --border: rgba(148,163,184,0.25);
+      --shadow: 0 10px 30px rgba(2,6,23,0.5);
+      --shadow-soft: 0 12px 24px rgba(124,58,237,0.15);
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background: radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,0.12), transparent 50%),
+                                              radial-gradient(1000px 500px at 90% 0%, rgba(34,211,238,0.10), transparent 50%),
+                                              var(--bg);
+                 color: var(--text); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; }
+    a { color: var(--brand-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container{ max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    /* Header */
+    header.hero{
+      position: relative; padding: 36px 24px 28px; margin: 12px 0 24px;
+      border:1px solid var(--border); background:linear-gradient(180deg, rgba(124,58,237,0.09), rgba(34,211,238,0.05) 70%, transparent);
+      border-radius: 20px; backdrop-filter: blur(4px); box-shadow: var(--shadow-soft);
+    }
+    .badge{ display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); background:rgba(124,58,237,0.15); padding:6px 10px; border:1px solid var(--border); border-radius: 999px; }
+    .title{ font-weight:800; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.5px; margin: 10px 0 6px; }
+    .subtitle{ color: var(--muted); max-width: 70ch; }
+
+    /* Layout grid */
+    .grid{ display:grid; grid-template-columns: 260px 1fr; gap: 24px; align-items:start; }
+    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } nav.sticky{ position: static; top:auto; } }
+
+    /* Sidebar */
+    nav.sticky{ position: sticky; top: 16px; border:1px solid var(--border); background: var(--panel); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); }
+    nav h3{ margin: 2px 0 10px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing:1px; }
+    .toc a{ display:block; padding: 8px 10px; border-radius: 10px; color: var(--text); }
+    .toc a:hover{ background: rgba(124,58,237,0.15); }
+    .toc a.active{ background: rgba(34,211,238,0.15); }
+
+    /* Sections */
+    section.card{ border:1px solid var(--border); background: var(--panel); border-radius: 16px; padding: 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+    section.card h2{ margin: 0 0 10px; font-size: 22px; }
+    section.card p{ color: var(--text); }
+    .kicker{ color:var(--muted); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+    .hint{ font-size: 14px; color: var(--muted); }
+
+    /* Details / accordions */
+    details{ border:1px dashed var(--border); border-radius: 12px; padding: 12px 14px; background: rgba(2,6,23,0.35); }
+    details + details{ margin-top: 10px; }
+    details summary{ cursor: pointer; font-weight: 700; }
+    details[open]{ background: rgba(124,58,237,0.12); }
+
+    /* Chips */
+    .chips{ display:flex; flex-wrap: wrap; gap:8px; }
+    .chip{ background: var(--chip); border:1px solid var(--border); padding: 6px 10px; border-radius: 999px; font-size: 12px; color: var(--muted); }
+
+    /* Tables */
+    table{ width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 12px; border:1px solid var(--border); }
+    thead th{ text-align:left; background: rgba(124,58,237,0.15); font-size:13px; letter-spacing:.02em; }
+    th, td{ padding: 10px 12px; border-bottom:1px solid var(--border); vertical-align: top; }
+    tbody tr:hover{ background: rgba(124,58,237,0.08); }
+
+    /* Callouts */
+    .callout{ border-left: 4px solid var(--brand); padding: 14px 16px; background: rgba(124,58,237,0.10); border-radius: 10px; }
+    .callout.ok{ border-left-color: var(--ok); background: rgba(34,197,94,0.12); }
+    .callout.warn{ border-left-color: var(--warn); background: rgba(245,158,11,0.12); }
+    .callout.bad{ border-left-color: var(--bad); background: rgba(239,68,68,0.12); }
+
+    /* Checklist */
+    .checklist{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+    .check{ display:flex; gap:10px; align-items:flex-start; background: var(--card); border:1px solid var(--border); padding:10px 12px; border-radius: 12px; }
+    .check input{ transform: translateY(3px); }
+
+    /* Badges / legend */
+    .legend{ display:flex; gap:8px; flex-wrap: wrap; }
+    .legend span{ display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); background:rgba(148,163,184,0.08); padding:6px 10px; border:1px solid var(--border); border-radius:999px; }
+    .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+
+    /* Footer */
+    footer{ color:var(--muted); font-size:12px; text-align:center; margin: 36px 0 16px; }
+
+    /* Utility */
+    .mt-0{ margin-top:0 }
+    .mb-0{ margin-bottom:0 }
+    .mb-8{ margin-bottom: 8px }
+    .mb-12{ margin-bottom: 12px }
+    .mb-16{ margin-bottom: 16px }
+    .mb-20{ margin-bottom: 20px }
+    .grid-2{ display:grid; grid-template-columns: repeat(2, 1fr); gap:14px; }
+    @media (max-width: 720px){ .grid-2{ grid-template-columns: 1fr; } }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 12px; color: var(--muted); }
+    .btn{ display:inline-block; padding:10px 14px; border-radius: 12px; border:1px solid var(--border); background: linear-gradient(90deg, rgba(124,58,237,0.18), rgba(34,211,238,0.18)); color: var(--text); font-weight:700; }
+      /* Image grids */
+    .imggrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px}
+    figure.sample{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card)}
+    figure.sample img{width:100%;height:120px;object-fit:cover;display:block}
+    figure.sample figcaption{padding:8px 10px;font-size:12px;color:var(--muted);border-top:1px solid var(--border)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <span class="badge">✂️ Hair Labeling • v1.0</span>
+      <h1 class="title">How to Label Hair Images</h1>
+      <p class="subtitle">This page explains everything you need to know to label photos of hair consistently and accurately for our machine‑learning dataset. Please read through once before starting, then keep it open while labeling. Estimated read‑through: ~7 minutes.</p>
+      <div class="legend" style="margin-top:10px">
+        <span><span class="dot" style="background:var(--ok)"></span>High‑priority</span>
+        <span><span class="dot" style="background:var(--warn)"></span>Tricky cases</span>
+        <span><span class="dot" style="background:var(--bad)"></span>Do not label</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <nav class="sticky">
+        <h3>On this page</h3>
+        <div class="toc">
+          <a href="#overview" class="active">1. Overview & Goal</a>
+          <a href="#taxonomy">2. Label Taxonomy</a>
+          <a href="#protocol">3. Labeling Protocol</a>
+          <a href="#quality">4. Quality & Edge Cases</a>
+          <a href="#examples">5. Quick Examples</a>
+          <a href="#privacy">6. Privacy & Consent</a>
+          <a href="#faq">7. FAQ</a>
+        </div>
+      </nav>
+
+      <main>
+        <!-- 1. OVERVIEW -->
+        <section id="overview" class="card">
+          <div class="kicker">Section 1</div>
+          <h2 class="mt-0">Overview & Goal</h2>
+          <p class="mb-12">You're helping build a training dataset for a model that understands hair appearance. Our priority is to label <strong>what is visible</strong> in each image. If you are unsure, choose <em>"Unsure/Not Visible"</em> rather than guessing. Consistency beats precision.</p>
+          <div class="grid-2">
+            <div class="callout ok">
+              <strong>Primary goal:</strong>
+              <ul class="mb-0">
+                <li>Classify hair characteristics (curl pattern, length, density, color, style, etc.).</li>
+                <li>Mark image conditions (lighting, occlusion, blur) that affect visibility.</li>
+              </ul>
+            </div>
+            <div class="callout warn">
+              <strong>Important:</strong>
+              <ul class="mb-0">
+                <li>Base labels on the <em>current photo only</em>. Do not infer from context.</li>
+                <li>Use <em>Unsure/Not Visible</em> when the view is obstructed or out of frame.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. TAXONOMY -->
+        <section id="taxonomy" class="card">
+          <div class="kicker">Section 2</div>
+          <h2 class="mt-0">Label Taxonomy (what to capture)</h2>
+          <p class="hint mb-16">These are the fields you will see in the labeling form. For each, pick <em>one</em> value unless marked multi‑select. When in doubt, open the accordion for visual cues and notes.</p>
+        </section>
+
+        <section id="Hair Type" class="card"> 
+          <div class="kicker">Section 2.1</div>     
+          <h2 class="mt-0">Hair Type</h2>
+            <div class="imggrid" aria-label="Curl pattern examples">
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\1-straight.jpg" alt="Type 1 straight hair"><figcaption>1 Straight</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\2A.jpg" alt="Type 2A wavy hair"><figcaption>2A Wavy</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\2B.jpg" alt="Type 2B wavy hair"><figcaption>2B Wavy</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\2C.jpg" alt="Type 2C wavy hair"><figcaption>2C Wavy</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\3A.jpg" alt="Type 3A curly hair"><figcaption>3A Curly</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\3B.jpg" alt="Type 3B curly hair"><figcaption>3B Curly</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\3C.jpg" alt="Type 3C curly hair"><figcaption>3C Curly</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\4A.jpg" alt="Type 4A coily hair"><figcaption>4A Coily</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\4B.jpg" alt="Type 4B coily hair"><figcaption>4B Coily</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\4C.jpg" alt="Type 4C coily hair"><figcaption>4C Coily</figcaption></figure>
+            </div>
+        
+          </details>
+        </section>
+        
+        <section id="Hair Length" class="card"> 
+          <div class="kicker">Section 2.2</div>     
+          <h2 class="mt-0">Hair Length</h2>
+            <div class="imggrid" aria-label="Length examples">
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\very-short.jpg" alt="Very short buzz cut"><figcaption>Very short</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\short.jpg" alt="Short ear length"><figcaption>Short</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\medium.jpg" alt="Medium jaw to shoulder length"><figcaption>Medium</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\long.jpg" alt="Long below shoulders"><figcaption>Long</figcaption></figure>
+            </div>
+
+          </details>
+        </section>  
+
+        <section id="Hair Density" class="card"> 
+          <div class="kicker">Section 2.3</div> 
+          <h2 class="mt-0">Hair Density</h2>      
+            <div class="imggrid" aria-label="Density examples">
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\low-density.jpg" alt="Low density scalp visible"><figcaption>Low</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\medium-density.jpg" alt="Medium density partial scalp visible"><figcaption>Medium</figcaption></figure>
+              <figure class="sample"><img src="C:\Users\diyaj\Downloads\high-density.jpg" alt="High density full volume"><figcaption>High</figcaption></figure>
+            </div>
+
+          </details>
+        </section>  
+
+        <section id="protocol" class="card">
+          <div class="kicker">Section 3</div>
+          <h2 class="mt-0">Labeling Protocol (step‑by‑step)</h2>
+          <ol>
+            <li><strong>Scan the image</strong> for lighting, occlusion, and whether the whole hair area is visible.</li>
+            <li><strong>Assign curl pattern</strong> using the table above. If styled/altered, choose the <em>visible</em> pattern and note the style in 2.6.</li>
+            <li><strong>Pick length</strong> based on what you can see. If ends are hidden, choose <em>Unsure/Not Visible</em>.</li>
+            <li><strong>Estimate density</strong> by scalp visibility at the part/crown.</li>
+            <li><strong>Estimate strand thickness</strong>, or choose <em>Unsure</em> if image resolution is low.</li>
+            <li><strong>Select color(s)</strong> and <strong>style</strong>. Add protective style/wig if applicable.</li>
+            <li><strong>Flag image conditions</strong> (lighting/blur/occlusion/face status).</li>
+            <li><strong>Final check:</strong> If you guessed on any field, switch to <em>Unsure</em>. Consistency wins.</li>
+          </ol>
+
+          <div class="checklist">
+            <label class="check"><input type="checkbox" /> Curl pattern chosen accurately</label>
+            <label class="check"><input type="checkbox" /> Length reflects what is visible</label>
+            <label class="check"><input type="checkbox" /> Density judged by scalp visibility</label>
+            <label class="check"><input type="checkbox" /> Strand thickness marked or Unsure</label>
+            <label class="check"><input type="checkbox" /> Color(s) and style selected</label>
+            <label class="check"><input type="checkbox" /> Image conditions flagged</label>
+          </div>
+        </section>
+
+        <!-- 4. QUALITY / EDGE CASES -->
+        <section id="quality" class="card">
+          <div class="kicker">Section 4</div>
+          <h2 class="mt-0">Quality Rules & Edge Cases</h2>
+
+          <div class="grid-2">
+            <div class="callout ok">
+              <strong>Label ✅</strong>
+              <ul class="mb-0">
+                <li>Clear view of hair with acceptable lighting.</li>
+                <li>Protective styles (braids, twists, locs) — label the <em>style</em> and set pattern to <em>Unsure</em> if natural pattern is hidden.</li>
+                <li>Wigs/weaves/extensions — mark style as such; label visible attributes.</li>
+              </ul>
+            </div>
+            <div class="callout bad">
+              <strong>Do NOT label ❌</strong>
+              <ul class="mb-0">
+                <li>Images with explicit content, watermarks, or personal identifiers that violate consent.</li>
+                <li>Children without clear guardian consent documentation (if present in your queue).</li>
+                <li>Severely blurred/obscured hair where core attributes are not visible.</li>
+              </ul>
+            </div>
+          </div>
+
+          <details class="mb-12">
+            <summary>Common tricky cases (open for guidance)</summary>
+            <table>
+              <thead><tr><th>Case</th><th>How to label</th></tr></thead>
+              <tbody>
+                <tr><td>Blowouts/Flat‑ironed curls</td><td>Pattern = what you see (often 1 or 2); Style = Blowout/Straightened.</td></tr>
+                <tr><td>Wet hair</td><td>Pattern may look looser; label the visible state; flag <em>Image Conditions: Good/Low light</em> accordingly.</td></tr>
+                <tr><td>Mixed patterns</td><td>Select <em>Mixed</em>; add style notes if helpful.</td></tr>
+                <tr><td>Partial frame (top only)</td><td>Length = Unsure; label other visible attributes.</td></tr>
+                <tr><td>Headwear/hats</td><td>Flag heavy occlusion; label what is visible; use Unsure when necessary.</td></tr>
+                <tr><td>Color corrections/filter</td><td>If color is obviously altered by a filter, mark <em>Image Conditions</em> and pick closest base color.</td></tr>
+              </tbody>
+            </table>
+          </details>
+
+          <div class="callout warn">
+            <strong>Reviewer rubric (self‑check):</strong>
+            <ul class="mb-0">
+              <li><em>Accuracy</em>: Labels match visible evidence; no guessing.</li>
+              <li><em>Completeness</em>: All applicable fields filled; Unsure used appropriately.</li>
+              <li><em>Consistency</em>: Same rules applied across similar images.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 5. EXAMPLES (TEXT-ONLY PLACEHOLDERS) -->
+        <section id="examples" class="card">
+          <div class="kicker">Section 5</div>
+          <h2 class="mt-0">Quick Text Examples (what we expect)</h2>
+          <table>
+            <thead><tr><th>Image description</th><th>Expected labels</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Shoulder‑length hair with clear S‑waves; brown with sun‑lights.</td>
+                <td class="mono">Pattern: 2B · Length: Medium · Density: Medium · Thickness: Medium · Color: Medium Brown, Highlights · Style: Loose · Conditions: Good lighting</td>
+              </tr>
+              <tr>
+                <td>Tight coils in a bun; edges laid; color black; face partially visible.</td>
+                <td class="mono">Pattern: 4A · Length: Unsure · Density: High · Thickness: Coarse · Color: Black · Style: Bun/Updo · Conditions: Face visible</td>
+              </tr>
+              <tr>
+                <td>Box braids mid‑back; blonde ombre tips; indoor low light.</td>
+                <td class="mono">Pattern: Unsure · Length: Long · Density: Unsure · Thickness: Unsure · Color: Dark Brown, Blonde, Two‑tone/Ombre · Style: Braids (box) · Conditions: Low light, Heavy occlusion</td>
+              </tr>
+              <tr>
+                <td>Platinum pixie cut; straight; sharp focus.</td>
+                <td class="mono">Pattern: 1 · Length: Short · Density: Medium · Thickness: Fine · Color: Bleached/Platinum · Style: Loose · Conditions: Good lighting</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 6. PRIVACY & CONSENT -->
+        <section id="privacy" class="card">
+          <div class="kicker">Section 6</div>
+          <h2 class="mt-0">Privacy, Safety & Consent</h2>
+          <div class="callout">
+            <p class="mb-0"><strong>If an image appears to be used without consent or includes sensitive personal data, stop and flag it immediately.</strong> Our dataset requires that images are permissibly collected and used. Faces should be blurred when possible; if a face is clearly identifiable and cannot be blurred in the labeling tool, mark <em>Face visible</em> and escalate.</p>
+          </div>
+          <ul>
+            <li>Never download or share images outside the labeling tool.</li>
+            <li>Do not try to identify the person; label hair only.</li>
+            <li>If you suspect a child’s image lacks consent, do not label and flag.</li>
+          </ul>
+        </section>
+
+        <!-- 7. FAQ -->
+        <section id="faq" class="card">
+          <div class="kicker">Section 7</div>
+          <h2 class="mt-0">Frequently Asked Questions</h2>
+
+          <details>
+            <summary>What if I can’t tell between 3C and 4A?</summary>
+            <p>Choose the closest visible type; if still unsure, pick <em>Unsure</em>. Consistency matters more than perfect granularity. Use notes if the tool allows.</p>
+          </details>
+          <details>
+            <summary>How do I label wigs or extensions?</summary>
+            <p>Mark <em>Wig</em> or <em>Weave/Extensions</em> in Style. Label visible attributes (length/color) as seen. Natural pattern can be <em>Unsure</em> if hidden.</p>
+          </details>
+          <details>
+            <summary>Should I correct obvious photo filters?</summary>
+            <p>No. Label what you see and flag <em>Image Conditions</em> if color seems altered.</p>
+          </details>
+          <details>
+            <summary>Do you want segmentation/boxes?</summary>
+            <p>This guide covers <em>classification labels</em>. If your task includes drawing masks or boxes, follow the separate <em>Annotation UI</em> guide provided in the tool.</p>
+          </details>
+        </section>
+
+        <!-- FOOTER / CONTACT -->
+        <section class="card">
+          <h2 class="mt-0">You’re ready 🎉</h2>
+          <p>Open the labeling tool and keep this page nearby. Thank you for helping us build a fair, inclusive dataset across all hair types and styles.</p>
+          <a class="btn" href="#" onclick="alert('Connect this link to your labeling tool (e.g., /label).')">Go to Labeling Tool</a>
+          <p class="hint">Need help? Email <a href="mailto:ops@yourdomain.com">ops@yourdomain.com</a>. Include the image ID in your message.</p>
+        </section>
+
+        <footer>
+          <div>Hair Labeling Guide • v1.0 • © Your Company</div>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Lightweight active section indicator for sidebar (no external deps)
+    const links = document.querySelectorAll('.toc a');
+    const sections = Array.from(document.querySelectorAll('main section')).map(s => ({id:s.id, top:0}));
+    const setActive = () => {
+      sections.forEach(o=>{ o.top = document.getElementById(o.id).getBoundingClientRect().top });
+      const near = sections.filter(o=>o.top < window.innerHeight * 0.45).slice(-1)[0] || sections[0];
+      links.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#' + near.id));
+    };
+    document.addEventListener('scroll', setActive, {passive:true});
+    window.addEventListener('load', setActive);
+  </script>
+</body>
+</html>
