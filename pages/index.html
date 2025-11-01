@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hair Image Labeling Guide</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="container">
+    
+            <nav>
+                <ul>
+                    <li class="logo"><a href = "index.html">Logo</a></li>
+                    <li class="page"><a href = "index.html">Home</a></li>
+                    <li class="page"><a href = "training.html" >Training</a></li>
+                    <li class="page"><a href = "quiz.html" >Quiz</a></li>
+                </ul>
+            </nav>
+      <header class="hero">
+
+      <h1 class="title">HairFlow Data Labeling</h1>
+      
+    </header>
+    <main>
+        <!-- 1. OVERVIEW -->
+        <section id="overview" class="homepage card">
+          <h2 class="mt-0">Welcome!</h2>
+          <p class="mb-12">Welcome to the HairFlow data labeling webpage! You will be helping us 
+            build a training dataset for an AI model that will be able to accuratley identify and 
+            generate historically underrepresented hair types. To learn more about our research project,
+            please see here:
+            </p>
+          <nav>
+            <li class="page website"><a href = "https://hairflow3d.com/">HairFlow Website</a></li>
+          </nav>
+          <p class="mb-12">To learn how to label data effectively, please visit our training page.
+            If you are ready to officially start labeling, please take our preparatory quiz so we 
+            can ensure we are all on the same page! 
+            </p>
+          <p class="mb-12">If you have any questions that aren't answered on this webpage, please
+            contact the leader of the project, Sarah: sjobalia@stanford.edu 
+            </p>
+
+        </section>
+    </main>
+
+
+  </div>
+  <footer>
+      <div>Hair Labeling Quiz • © HairFlow Dataset</div>
+    </footer>
+  
+  <script>
+    // Lightweight active section indicator for sidebar (no external deps)
+    const links = document.querySelectorAll('.toc a');
+    const sections = Array.from(document.querySelectorAll('main section')).map(s => ({id:s.id, top:0}));
+    const setActive = () => {
+      sections.forEach(o=>{ o.top = document.getElementById(o.id).getBoundingClientRect().top });
+      const near = sections.filter(o=>o.top < window.innerHeight * 0.45).slice(-1)[0] || sections[0];
+      links.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#' + near.id));
+    };
+    document.addEventListener('scroll', setActive, {passive:true});
+    window.addEventListener('load', setActive);
+  </script>
+</body>
+</html>
