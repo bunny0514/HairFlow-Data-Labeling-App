@@ -9,28 +9,6 @@ A web application for labeling hair images with detailed measurements and charac
 - **JSONL Data Storage**: Labels are saved in JSONL format (one JSON object per line) in `data/labels.jsonl`
 - **Static File Serving**: Serves HTML pages, images, and stylesheets
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/bunny0514/HairFlow-Data-Labeling-App.git
-   cd HairFlow-Data-Labeling-App
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-## Running the Server
-
-Start the Express server:
-```bash
-npm start
-```
-
-The server will run on `http://localhost:3000` (or the port specified by the `PORT` environment variable).
-
 ## Usage
 
 1. **Home Page**: Visit `http://localhost:3000` (redirects to home page)
