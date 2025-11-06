@@ -1,0 +1,16 @@
+{
+  "name": "hairflow-data-labeling-app",
+  "version": "1.0.0",
+  "description": "Data labeling application for HairFlow dataset",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["hair", "labeling", "data"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+

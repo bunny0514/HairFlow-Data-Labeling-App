@@ -31,49 +31,82 @@
     <!-- Main content inside a card (same as other sections) -->
     <main>
       <section id="quiz" class="card">
-        <iframe 
-          src="https://docs.google.com/forms/d/e/1FAIpQLSei7xyqgeCXECYIZTRy2YKb1IB6XihUEzi5b3wZywQExMlolw/viewform?usp=header/viewform?embedded=true"
-          width="100%" height="950" frameborder="0" marginheight="0" marginwidth="0">
-          Loading…
-        </iframe>
-      </section>
-      <!-- <section id="quiz" class="card">
         <div class="image1-container" style="text-align:center; margin-bottom:20px;">
-          <img src="hair_groom.png" alt="Curly hair groom"
+          <img src="/images/hair_groom.png" alt="Curly hair groom"
             style="max-width:100%; border-radius:12px; box-shadow:var(--shadow-soft);" />
         </div>
 
         <form id="quiz-form" class="quiz-wrapper">
           <div class="quiz-scroll">
+            <!-- Metadata fields -->
+            <div class="question mb-12">
+              <label for="image_id" class="kicker">Image ID</label><br />
+              <input type="text" id="image_id" name="image_id" placeholder="e.g., img_0042.jpg" required
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" />
+            </div>
 
             <div class="question mb-12">
-              <label for="q1" class="kicker">1. Curl Radius</label><br />
-              <input type="range" id="q1" name="q1" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
+              <label for="labeler_id" class="kicker">Labeler ID</label><br />
+              <input type="text" id="labeler_id" name="labeler_id" placeholder="e.g., anon_72h8f3" required
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" />
+            </div>
+
+            <div class="question mb-12">
+              <label for="round" class="kicker">Round</label><br />
+              <input type="number" id="round" name="round" min="1" value="1" required
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" />
+            </div>
+
+            <!-- Measurement sliders -->
+            <div class="question mb-12">
+              <label for="q1" class="kicker">1. Curl Radius (cm)</label><br />
+              <input type="range" id="q1" name="q1" min="0" max="10" step="0.1" value="3" oninput="updateValue(this)">
               <span class="value-label" id="val-q1">3</span>
             </div>
 
             <div class="question mb-12">
-              <label for="q2" class="kicker">2. Twist Frequency</label><br />
-              <input type="range" id="q2" name="q2" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
-              <span class="value-label" id="val-q2">3</span>
+              <label for="q2" class="kicker">2. Twist Frequency (score)</label><br />
+              <input type="range" id="q2" name="q2" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+              <span class="value-label" id="val-q2">5</span>
             </div>
 
             <div class="question mb-12">
-              <label for="q3" class="kicker">3. Curl Wavelength</label><br />
-              <input type="range" id="q3" name="q3" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
+              <label for="q3" class="kicker">3. Curl Wavelength (cm)</label><br />
+              <input type="range" id="q3" name="q3" min="0" max="10" step="0.1" value="3" oninput="updateValue(this)">
               <span class="value-label" id="val-q3">3</span>
             </div>
 
-            <div class="question mb-16">
-              <label for="q5" class="kicker">5. Thickness</label><br />
-              <input type="range" id="q5" name="q5" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
-              <span class="value-label" id="val-q5">3</span>
+            <div class="question mb-12">
+              <label for="q4" class="kicker">4. Porosity (score)</label><br />
+              <input type="range" id="q4" name="q4" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+              <span class="value-label" id="val-q4">5</span>
             </div>
 
-            <button type="button" id="submit-btn" class="btn">Submit</button>
+            <div class="question mb-12">
+              <label for="q5" class="kicker">5. Thickness (score)</label><br />
+              <input type="range" id="q5" name="q5" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+              <span class="value-label" id="val-q5">5</span>
+            </div>
+
+            <!-- Flags section -->
+            <div class="question mb-12">
+              <label for="is_ambiguous" class="kicker">
+                <input type="checkbox" id="is_ambiguous" name="is_ambiguous" />
+                Mark as ambiguous
+              </label>
+            </div>
+
+            <div class="question mb-16">
+              <label for="comments" class="kicker">Comments (optional)</label><br />
+              <textarea id="comments" name="comments" rows="3" placeholder="Any additional notes or comments..."
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; font-family:inherit;"></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn">Submit</button>
+            <div id="submit-message" style="margin-top:12px; display:none;"></div>
           </div>
         </form>
-      </section> -->
+      </section>
 
     <!-- Footer -->
     <footer>
@@ -87,12 +120,82 @@
       document.getElementById("val-" + slider.id).textContent = slider.value;
     }
 
-    document.getElementById("submit-btn").addEventListener("click", () => {
-      const data = {};
-      document.querySelectorAll("input[type='range']").forEach(slider => {
-        data[slider.name] = slider.value;
-      });
-      alert("Your responses:\n" + JSON.stringify(data, null, 2));
+    // Generate a random labeler ID if not set
+    function generateLabelerId() {
+      if (!localStorage.getItem('labeler_id')) {
+        const randomId = 'anon_' + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem('labeler_id', randomId);
+      }
+      return localStorage.getItem('labeler_id');
+    }
+
+    // Set default labeler ID on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const labelerIdInput = document.getElementById('labeler_id');
+      if (!labelerIdInput.value) {
+        labelerIdInput.value = generateLabelerId();
+      }
+    });
+
+    document.getElementById('quiz-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submit-btn');
+      const messageDiv = document.getElementById('submit-message');
+      
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      messageDiv.style.display = 'none';
+
+      // Build the record according to the schema
+      const record = {
+        image_id: document.getElementById('image_id').value,
+        labeler_id: document.getElementById('labeler_id').value,
+        created_at: new Date().toISOString(),
+        round: parseInt(document.getElementById('round').value),
+        measurements: {
+          radius_cm: parseFloat(document.getElementById('q1').value),
+          wavelength_cm: parseFloat(document.getElementById('q3').value),
+          twist_frequency_score: parseInt(document.getElementById('q2').value),
+          porosity_score: parseInt(document.getElementById('q4').value),
+          thickness_score: parseInt(document.getElementById('q5').value)
+        },
+        flags: {
+          is_ambiguous: document.getElementById('is_ambiguous').checked,
+          comments: document.getElementById('comments').value || '',
+          review_status: 'pending'
+        }
+      };
+
+      try {
+        const response = await fetch('/api/labels', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          messageDiv.style.display = 'block';
+          messageDiv.style.color = 'green';
+          messageDiv.textContent = '✓ Label submitted successfully!';
+          
+          // Reset form (optional - you might want to keep values)
+          // document.getElementById('quiz-form').reset();
+        } else {
+          throw new Error(result.error || 'Failed to submit label');
+        }
+      } catch (error) {
+        messageDiv.style.display = 'block';
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = '✗ Error: ' + error.message;
+        console.error('Error submitting label:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+      }
     });
   </script>
 </body>
