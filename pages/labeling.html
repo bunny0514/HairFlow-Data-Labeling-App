@@ -52,42 +52,55 @@
         </div>
 
         <form id="quiz-form" class="quiz-wrapper">
-          <div class="quiz-scroll">
+            <input type="hidden" id="image_id" value="example_image_001">
+            <input type="hidden" id="labeler_id">
+            <input type="hidden" id="round" value="1">
+            <div id="submit-message" style="margin-top:10px; display:none;"></div>
 
-            <div class="question mb-12">
-              <label for="q1" class="kicker">1. Curl Radius (cm)</label><br />
-              <input type="range" id="q1" name="q1" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
-              <span class="value-label" id="val-q1">3</span>
-            </div>
+            <div class="quiz-scroll">
 
-            <div class="question mb-12">
-              <label for="q2" class="kicker">2. Twist Frequency</label><br />
-              <input type="range" id="q2" name="q2" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
-              <span class="value-label" id="val-q2">5</span>
-            </div>
+                <div class="question mb-12">
+                <label for="q1" class="kicker">1. Curl Radius (cm)</label><br />
+                <input type="range" id="q1" name="q1" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
+                <span class="value-label" id="val-q1">3</span>
+                </div>
 
-            <div class="question mb-12">
-              <label for="q3" class="kicker">3. Curl Wavelength (cm)</label><br />
-              <input type="range" id="q3" name="q3" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
-              <span class="value-label" id="val-q3">3</span>
-            </div>
+                <div class="question mb-12">
+                <label for="q2" class="kicker">2. Twist Frequency</label><br />
+                <input type="range" id="q2" name="q2" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+                <span class="value-label" id="val-q2">5</span>
+                </div>
 
-            <div class="question mb-12">
-              <label for="q5" class="kicker">4. Porosity</label><br />
-              <input type="range" id="q4" name="q4" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
-              <span class="value-label" id="val-q4">5</span>
-            </div>
+                <div class="question mb-12">
+                <label for="q3" class="kicker">3. Curl Wavelength (cm)</label><br />
+                <input type="range" id="q3" name="q3" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
+                <span class="value-label" id="val-q3">3</span>
+                </div>
 
-            <div class="question mb-12">
-              <label for="q5" class="kicker">5. Thickness</label><br />
-              <input type="range" id="q5" name="q5" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
-              <span class="value-label" id="val-q5">5</span>
-            </div>
+                <div class="question mb-12">
+                <label for="q4" class="kicker">4. Porosity</label><br />
+                <input type="range" id="q4" name="q4" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+                <span class="value-label" id="val-q4">5</span>
+                </div>
 
-            <div class="button-row">
-                <button type="button" id="submit-btn" class="btn">Submit</button>
-                <button type="button" id="skip-btn" class="btn">Skip</button>
-            </div>
+                <div class="question mb-12">
+                <label for="q5" class="kicker">5. Thickness</label><br />
+                <input type="range" id="q5" name="q5" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+                <span class="value-label" id="val-q5">5</span>
+                </div>
+
+                <!-- Flags section -->
+                <div class="question mb-16">
+                <label for="comments" class="kicker">Comments (optional)</label><br />
+                <textarea id="comments" name="comments" rows="3" placeholder="Any additional notes or comments..."
+                    style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; font-family:inherit;"></textarea>
+                </div>
+
+
+                <div class="button-row">
+                    <button type="button" id="submit-btn" class="btn">Submit</button>
+                    <button type="button" id="skip-btn" class="btn">Skip</button>
+                </div>
           </div>
         </form>
       </section>
@@ -98,6 +111,6 @@
     </footer>
   </div>
 
-  <script src="../scripts/quiz.js"></script>
+  <script src="../scripts/labeling.js"></script>
 </body>
 </html>
