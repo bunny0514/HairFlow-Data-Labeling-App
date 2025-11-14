@@ -40,24 +40,10 @@
 
         <form id="quiz-form" class="quiz-wrapper">
           <div class="quiz-scroll">
-            <!-- Metadata fields -->
-            <div class="question mb-12">
-              <label for="image_id" class="kicker">Image ID</label><br />
-              <input type="text" id="image_id" name="image_id" placeholder="e.g., img_0042.jpg" required
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" />
-            </div>
-
-            <div class="question mb-12">
-              <label for="labeler_id" class="kicker">Labeler ID</label><br />
-              <input type="text" id="labeler_id" name="labeler_id" placeholder="e.g., anon_72h8f3" required
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" />
-            </div>
-
-            <div class="question mb-12">
-              <label for="round" class="kicker">Round</label><br />
-              <input type="number" id="round" name="round" min="1" value="1" required
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" />
-            </div>
+            <!-- Metadata fields (hidden, not editable) -->
+            <input type="hidden" id="image_id" name="image_id" value="img_001.jpg" required />
+            <input type="hidden" id="labeler_id" name="labeler_id" required />
+            <input type="hidden" id="round" name="round" value="1" required />
 
             <!-- Measurement sliders -->
             <div class="question mb-12">
