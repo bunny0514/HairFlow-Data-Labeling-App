@@ -81,6 +81,12 @@ header.hero{
     nav.sticky{ position: static; top:auto; } 
 }
 
+/* quiz */
+#quiz {
+    display: flex;
+    flex-direction: column;   /* make everything stack vertically */
+    align-items: center;      /* center all children horizontally */
+}
 /* Sidebar */
 nav.sticky{ 
     position: sticky; 
@@ -180,29 +186,98 @@ details[open]{
 }
 
 /* Tables */
-table{ width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 12px; border:1px solid var(--border); }
-thead th{ text-align:left; background: rgba(124,58,237,0.15); font-size:13px; letter-spacing:.02em; }
-th, td{ padding: 10px 12px; border-bottom:1px solid var(--border); vertical-align: top; }
-tbody tr:hover{ background: rgba(124,58,237,0.08); }
+table{ 
+    width: 100%; 
+    border-collapse: collapse; 
+    overflow: hidden; 
+    border-radius: 12px; 
+    border:1px solid var(--border); 
+}
+thead th{ 
+    text-align:left; 
+    background: rgba(124,58,237,0.15); 
+    font-size:13px; 
+    letter-spacing:.02em; 
+}
+th, td{ 
+    padding: 10px 12px; 
+    border-bottom:1px solid var(--border); 
+    vertical-align: top; 
+}
+tbody tr:hover{ 
+    background: rgba(124,58,237,0.08); 
+}
 
 /* Callouts */
-.callout{ border-left: 4px solid var(--brand); padding: 14px 16px; background: rgba(124,58,237,0.10); border-radius: 10px; }
-.callout.ok{ border-left-color: var(--ok); background: rgba(34,197,94,0.12); }
-.callout.warn{ border-left-color: var(--warn); background: rgba(245,158,11,0.12); }
-.callout.bad{ border-left-color: var(--bad); background: rgba(239,68,68,0.12); }
+.callout{ 
+    border-left: 4px solid var(--brand); 
+    padding: 14px 16px; 
+    background: rgba(124,58,237,0.10); 
+    border-radius: 10px; 
+}
+.callout.ok{ 
+    border-left-color: var(--ok); 
+    background: rgba(34,197,94,0.12); 
+}
+.callout.warn{ 
+    border-left-color: var(--warn); 
+    background: rgba(245,158,11,0.12); 
+}
+.callout.bad{ 
+    border-left-color: var(--bad); 
+    background: rgba(239,68,68,0.12); 
+}
 
 /* Checklist */
-.checklist{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
-.check{ display:flex; gap:10px; align-items:flex-start; background: var(--card); border:1px solid var(--border); padding:10px 12px; border-radius: 12px; }
-.check input{ transform: translateY(3px); }
+.checklist{ 
+    display:grid; 
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+    gap: 10px; 
+}
+.check{ 
+    display:flex; 
+    gap:10px; 
+    align-items:flex-start; 
+    background: var(--card); 
+    border:1px solid var(--border); 
+    padding:10px 12px; 
+    border-radius: 12px; 
+}
+.check input{ 
+    transform: translateY(3px); 
+}
 
 /* Badges / legend */
-.legend{ display:flex; gap:8px; flex-wrap: wrap; }
-.legend span{ display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); background:rgba(148,163,184,0.08); padding:6px 10px; border:1px solid var(--border); border-radius:999px; }
-.dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+.legend{ 
+    display:flex; 
+    gap:8px; 
+    flex-wrap: wrap; 
+}
+.legend span{ 
+    display:inline-flex; 
+    gap:8px; 
+    align-items:center; 
+    font-size:12px; 
+    color:var(--muted); 
+    background:rgba(148,163,184,0.08); 
+    padding:6px 10px; 
+    border:1px solid var(--border); 
+    border-radius:999px; 
+}
+.dot{ 
+    width:10px; 
+    height:10px; 
+    border-radius:50%; 
+    display:inline-block; 
+}
 
 /* Footer */
-footer{ color:var(--muted); font-size:12px; text-align:center; margin: 36px 0 16px; }
+footer{ 
+    color:var(--muted); 
+    font-size:12px; 
+    text-align:center; 
+    margin: 36px 0 16px; 
+}
 
 /* Utility */
 .mt-0{ margin-top:0 }
@@ -214,7 +289,15 @@ footer{ color:var(--muted); font-size:12px; text-align:center; margin: 36px 0 16
 .grid-2{ display:grid; grid-template-columns: repeat(2, 1fr); gap:14px; }
 @media (max-width: 720px){ .grid-2{ grid-template-columns: 1fr; } }
 .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 12px; color: var(--muted); }
-.btn{ display:inline-block; padding:10px 14px; border-radius: 12px; border:1px solid var(--border); background: linear-gradient(90deg, rgba(124,58,237,0.18), rgba(34,211,238,0.18)); color: var(--text); font-weight:700; }
+.btn{ 
+    display:inline-block; 
+    padding:10px 14px; 
+    border-radius: 12px; 
+    border:1px solid var(--border); 
+    background: linear-gradient(90deg, rgba(124,58,237,0.18), rgba(34,211,238,0.18)); 
+    color: var(--text); 
+    font-weight:700; 
+}
     /* Image grids */
 .imggrid{
     display:grid;

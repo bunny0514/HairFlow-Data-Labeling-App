@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hair Labeling Quiz</title>
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <nav>
+      <ul>
+        <li class="logo"><a href="index.html">Logo</a></li>
+        <li class="page"><a href="index.html">Home</a></li>
+        <li class="page"><a href="training.html">Training</a></li>
+        <li class="page"><a href="quiz.html">Quiz</a></li>
+        <li class="page"><a href="labeling.html">Labeling</a></li>
+      </ul>
+    </nav>
+
+    <!-- Header -->
+    <header class="hero">
+      <h1 class="title">Hair Labeling Quiz</h1>
+      <p class="subtitle">
+        Pick a value for each descriptor that best describes the hair in the image below.
+      </p>
+    </header>
+
+    <!-- Main content inside a card (same as other sections) -->
+    <main>
+      <section id="overview" class="homepage card">
+          <h2 class="mt-0">Welcome!</h2>
+          
+          <p class="mb-12">To learn how to label data effectively, please visit our training page.
+            If you are ready to officially start labeling, please take our preparatory quiz so we 
+            can make sure we are all on the same page! 
+            </p>
+          <p class="mb-12">Below is our interface for continuously labeling images until you
+            reach the limit of 500 (should we have them make accounts?). For curl radius and curl wavelength, your answer will be in cm.
+            For the other categories, your answer will be on a scale from 1-10, where the scale is not
+            associated with a particular unit of measurement.  
+            </p>
+
+        </section>
+      <section id="quiz" class="card">
+        <div class="image1-container" style="text-align:center; margin-bottom:20px;">
+          <img src="../images/hair_groom.png" alt="Curly hair groom"
+            style="max-width:100%; border-radius:12px; box-shadow:var(--shadow-soft);" />
+        </div>
+
+        <form id="quiz-form" class="quiz-wrapper">
+            <input type="hidden" id="image_id" value="example_image_001">
+            <input type="hidden" id="labeler_id">
+            <input type="hidden" id="round" value="1">
+            <div id="submit-message" style="margin-top:10px; display:none;"></div>
+
+            <div class="quiz-scroll">
+
+                <div class="question mb-12">
+                <label for="q1" class="kicker">1. Curl Radius (cm)</label><br />
+                <input type="range" id="q1" name="q1" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
+                <span class="value-label" id="val-q1">3</span>
+                </div>
+
+                <div class="question mb-12">
+                <label for="q2" class="kicker">2. Twist Frequency</label><br />
+                <input type="range" id="q2" name="q2" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+                <span class="value-label" id="val-q2">5</span>
+                </div>
+
+                <div class="question mb-12">
+                <label for="q3" class="kicker">3. Curl Wavelength (cm)</label><br />
+                <input type="range" id="q3" name="q3" min="1" max="5" step=".01" value="3" oninput="updateValue(this)">
+                <span class="value-label" id="val-q3">3</span>
+                </div>
+
+                <div class="question mb-12">
+                <label for="q4" class="kicker">4. Porosity</label><br />
+                <input type="range" id="q4" name="q4" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+                <span class="value-label" id="val-q4">5</span>
+                </div>
+
+                <div class="question mb-12">
+                <label for="q5" class="kicker">5. Thickness</label><br />
+                <input type="range" id="q5" name="q5" min="1" max="10" step="1" value="5" oninput="updateValue(this)">
+                <span class="value-label" id="val-q5">5</span>
+                </div>
+
+                <!-- Flags section -->
+                <div class="question mb-16">
+                <label for="comments" class="kicker">Comments (optional)</label><br />
+                <textarea id="comments" name="comments" rows="3" placeholder="Any additional notes or comments..."
+                    style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; font-family:inherit;"></textarea>
+                </div>
+
+
+                <div class="button-row">
+                    <button type="button" id="submit-btn" class="btn">Submit</button>
+                    <button type="button" id="skip-btn" class="btn">Skip</button>
+                </div>
+          </div>
+        </form>
+      </section>
+
+    <!-- Footer -->
+    <footer>
+      <div>Hair Labeling Quiz • © HairFlow Dataset</div>
+    </footer>
+  </div>
+
+  <script src="../scripts/labeling.js"></script>
+</body>
+</html>
