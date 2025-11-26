@@ -39,7 +39,6 @@
           <a href="#taxonomy">2. Label Vocabulary</a>
           <a href="#protocol">3. Labeling Instructions</a>
           <a href="#quality">4. Quality & Edge Cases</a>
-          <a href="#examples">5. Quick Examples</a>
         </div>
       </nav>
 
@@ -55,14 +54,13 @@
               <strong>Primary goal:</strong>
               <ul class="mb-0">
                 <li>Classify hair characteristics (curl radius, twist frequency, curl wavelength, porosity, thickness).</li>
-                <li>Mark image conditions (lighting, occlusion, blur) that affect visibility.</li>
               </ul>
             </div>
             <div class="callout warn">
               <strong>Important:</strong>
               <ul class="mb-0">
                 <li>Base labels on the <em>current photo only</em>. Don't infer by asking other people or online resources.</li>
-                <li>Use <em>Unsure/Not Visible</em> when the view is obstructed or out of frame.</li>
+                <li>Skip the image when the view is obstructed or out of frame.</li>
               </ul>
             </div>
           </div>
@@ -76,46 +74,42 @@
             For each, pick <em>one</em> value.</p>
         </section>
 
-        <section id="Curl Radius" class="card"> 
+        <section id="Curl Diameter" class="card"> 
           <div class="kicker">Section 2.1</div>     
           <h2 class="mt-0">Curl Radius (in cm)</h2>
-            <div class="imggrid" aria-label="Curl radius examples">
-              <figure class="sample"><img src="../images/1-straight.jpg" alt="Type 1 straight hair"><figcaption>0 cm</figcaption></figure>
-              <figure class="sample"><img src="../images/3A.jpg" alt="Type 3A curly hair"><figcaption>3 cm</figcaption></figure>
-              <figure class="sample"><img src="../images/4A.jpg" alt="Type 4A coily hair"><figcaption>1 cm</figcaption></figure>
-              <figure class="sample"><img src="../images/4C.jpg" alt="Type 4C coily hair"><figcaption>.3 cm</figcaption></figure>
+            <div class="imggrid" aria-label="Curl diameter examples">
+              <figure class="sample"><img src="../images/training/curl_diam_.75.png" ><figcaption>.75 cm</figcaption></figure>
+              <figure class="sample"><img src="../images/training/curl_diam_4.png" ><figcaption>4 cm</figcaption></figure>
+              <figure class="sample"><img src="../images/training/curl_diam_0.png" ><figcaption>0 cm</figcaption></figure>
             </div>
         </section>
         
         <section id="Twist Frequency" class="card"> 
           <div class="kicker">Section 2.2</div>     
-          <h2 class="mt-0">Twist Frequency (in units)</h2>
+          <h2 class="mt-0">Twist Frequency (on a scale from 1-10)</h2>
             <div class="imggrid" aria-label="Length examples">
-              <figure class="sample"><img src="../images/short.jpg" alt="Short ear length"><figcaption>Short</figcaption></figure>
-              <figure class="sample"><img src="../images/medium.jpg" alt="Medium jaw to shoulder length"><figcaption>Medium</figcaption></figure>
-              <figure class="sample"><img src="../images/long.jpg" alt="Long below shoulders"><figcaption>Long</figcaption></figure>
+              <figure class="sample"><img src="../images/training/twist_freq_1.png" ><figcaption>1</figcaption></figure>
+              <figure class="sample"><img src="../images/training/twist_freq_8.png" ><figcaption>8</figcaption></figure>
             </div>
 
         </section>  
 
         <section id="Curl Wavelength" class="card"> 
           <div class="kicker">Section 2.3</div> 
-          <h2 class="mt-0">Curl Wavelength (in mm)</h2>      
+          <h2 class="mt-0">Curl Wavelength (in cm)</h2>      
             <div class="imggrid" aria-label="Density examples">
-                <figure class="sample"><img src="../images/short.jpg" alt="Short ear length"><figcaption>Short</figcaption></figure>
-                <figure class="sample"><img src="../images/medium.jpg" alt="Medium jaw to shoulder length"><figcaption>Medium</figcaption></figure>
-                <figure class="sample"><img src="../images/long.jpg" alt="Long below shoulders"><figcaption>Long</figcaption></figure>
+                <figure class="sample"><img src="../images/training/curl_wav_1.5.png" ><figcaption>1.5</figcaption></figure>
+                <figure class="sample"><img src="../images/training/curl_wav_4.5.png" ><figcaption>4.5</figcaption></figure>
             </div>
 
         </section>  
 
         <section id="Porosity" class="card"> 
           <div class="kicker">Section 2.2</div>     
-          <h2 class="mt-0">Porosity (low, medium, or high)</h2>
+          <h2 class="mt-0">Porosity (on a scale from 1-10)</h2>
             <div class="imggrid" aria-label="Length examples">
-              <figure class="sample"><img src="../images/short.jpg" alt="Short ear length"><figcaption>Short</figcaption></figure>
-              <figure class="sample"><img src="../images/medium.jpg" alt="Medium jaw to shoulder length"><figcaption>Medium</figcaption></figure>
-              <figure class="sample"><img src="../images/long.jpg" alt="Long below shoulders"><figcaption>Long</figcaption></figure>
+              <figure class="sample"><img src="../images/training/porosity_4.png" ><figcaption>4</figcaption></figure>
+              <figure class="sample"><img src="../images/training/porosity_7.png" ><figcaption>7</figcaption></figure>
             </div>
 
         </section>  
@@ -124,9 +118,8 @@
           <div class="kicker">Section 2.2</div>     
           <h2 class="mt-0">Thickness of a single strand (low, medium, or high)</h2>
             <div class="imggrid" aria-label="Length examples">
-              <figure class="sample"><img src="../images/short.jpg" alt="Short ear length"><figcaption>Short</figcaption></figure>
-              <figure class="sample"><img src="../images/medium.jpg" alt="Medium jaw to shoulder length"><figcaption>Medium</figcaption></figure>
-              <figure class="sample"><img src="../images/long.jpg" alt="Long below shoulders"><figcaption>Long</figcaption></figure>
+              <figure class="sample"><img src="../images/training/thickness_3.png" ><figcaption>3</figcaption></figure>
+              <figure class="sample"><img src="../images/training/thickness_7.png" ><figcaption>7</figcaption></figure>
             </div>
 
         </section>
@@ -136,7 +129,7 @@
           <h2 class="mt-0">Labeling Instructions </h2>
           <ol>
             <li><strong>Scan the image</strong> for lighting and determine whether enough hair is visible for you to make a well-informed decision about the hair.</li>
-            <li><strong>Choose curl radius, twist frequency, curl wavelength</strong> using your best judgement, making estimates based on the scale of the person's face.</li>
+            <li><strong>Choose curl diameter, twist frequency, curl wavelength</strong> using your best judgement, making estimates based on the scale of the person's face.</li>
             <li><strong>Choose porosity and thickness (of each individual strand, not of the hair as a whole)</strong>. You may need to use context clues to determine porosity (i.e. how frizzy the hair looks).</li>
             <li><strong>Skip</strong> the image if it is blurry, the hair is blocked, etc.</li>
           </ol>
@@ -188,33 +181,6 @@
               <li><em>Consistency</em>: Same judgement applied across all images.</li>
             </ul>
           </div>
-        </section>
-
-        <!-- 5. EXAMPLES (TEXT-ONLY PLACEHOLDERS) -->
-        <section id="examples" class="card">
-          <div class="kicker">Section 5</div>
-          <h2 class="mt-0">Quick Text Examples (what we expect)</h2>
-          <table>
-            <thead><tr><th>Image description</th><th>Expected labels</th></tr></thead>
-            <tbody>
-              <tr>
-                <td>Shoulder‑length hair with clear S‑waves; brown with sun‑lights.</td>
-                <td class="mono">Pattern: 2B · Length: Medium · Density: Medium · Thickness: Medium · Color: Medium Brown, Highlights · Style: Loose · Conditions: Good lighting</td>
-              </tr>
-              <tr>
-                <td>Tight coils in a bun; edges laid; color black; face partially visible.</td>
-                <td class="mono">Pattern: 4A · Length: Unsure · Density: High · Thickness: Coarse · Color: Black · Style: Bun/Updo · Conditions: Face visible</td>
-              </tr>
-              <tr>
-                <td>Box braids mid‑back; blonde ombre tips; indoor low light.</td>
-                <td class="mono">Pattern: Unsure · Length: Long · Density: Unsure · Thickness: Unsure · Color: Dark Brown, Blonde, Two‑tone/Ombre · Style: Braids (box) · Conditions: Low light, Heavy occlusion</td>
-              </tr>
-              <tr>
-                <td>Platinum pixie cut; straight; sharp focus.</td>
-                <td class="mono">Pattern: 1 · Length: Short · Density: Medium · Thickness: Fine · Color: Bleached/Platinum · Style: Loose · Conditions: Good lighting</td>
-              </tr>
-            </tbody>
-          </table>
         </section>
 
     
