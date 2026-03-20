@@ -34,14 +34,14 @@
     <main>
       <section id="quiz" class="card">
         <div class="image1-container" style="text-align:center; margin-bottom:20px;">
-          <img src="/images/hair_groom.png" alt="Curly hair groom"
-            style="max-width:100%; border-radius:12px; box-shadow:var(--shadow-soft);" />
+          <img id="quiz-image" src="" alt="Quiz hair image"
+          style="max-width:100%; border-radius:12px; box-shadow:var(--shadow-soft);" />
         </div>
 
         <form id="quiz-form" class="quiz-wrapper">
           <div class="quiz-scroll">
             <!-- Metadata fields (hidden, not editable) -->
-            <input type="hidden" id="image_id" name="image_id" value="img_001.jpg" required />
+            <input type="hidden" id="image_id" name="image_id" value="" required />
             <input type="hidden" id="labeler_id" name="labeler_id" required />
             <input type="hidden" id="round" name="round" value="1" required />
 
@@ -102,89 +102,62 @@
     </footer>
   </div>
 
-  <!-- JS -->
+  <!-- NEW!!! -->
+  <!-- js for loading a new random image every time you click submit -->
   <script>
-    function updateValue(slider) {
-      document.getElementById("val-" + slider.id).textContent = slider.value;
-    }
+    const GITHUB_OWNER = "jobalias";
+    const GITHUB_REPO = "HairFlow-Data-Labeling-App";
+    const GITHUB_FOLDER = "images";
 
-    // Generate a random labeler ID if not set
-    function generateLabelerId() {
-      if (!localStorage.getItem('labeler_id')) {
-        const randomId = 'anon_' + Math.random().toString(36).substring(2, 9);
-        localStorage.setItem('labeler_id', randomId);
-      }
-      return localStorage.getItem('labeler_id');
-    }
+    async function getImagesFromGitHub() {
+      const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FOLDER}?ref=iris`;
 
-    // Set default labeler ID on page load
-    window.addEventListener('DOMContentLoaded', () => {
-      const labelerIdInput = document.getElementById('labeler_id');
-      if (!labelerIdInput.value) {
-        labelerIdInput.value = generateLabelerId();
-      }
-    });
-
-    document.getElementById('quiz-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const submitBtn = document.getElementById('submit-btn');
-      const messageDiv = document.getElementById('submit-message');
-      
-      // Disable submit button
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
-      messageDiv.style.display = 'none';
-
-      // Build the record according to the schema
-      const record = {
-        image_id: document.getElementById('image_id').value,
-        labeler_id: document.getElementById('labeler_id').value,
-        created_at: new Date().toISOString(),
-        round: parseInt(document.getElementById('round').value),
-        measurements: {
-          radius_cm: parseFloat(document.getElementById('q1').value),
-          wavelength_cm: parseFloat(document.getElementById('q3').value),
-          twist_frequency_score: parseInt(document.getElementById('q2').value),
-          porosity_score: parseInt(document.getElementById('q4').value),
-          thickness_score: parseInt(document.getElementById('q5').value)
-        },
-        flags: {
-          is_ambiguous: document.getElementById('is_ambiguous').checked,
-          comments: document.getElementById('comments').value || '',
-          review_status: 'pending'
+      const res = await fetch(url, {
+        headers: {
+          Accept: "application/vnd.github+json"
         }
-      };
+      });
 
+      if (!res.ok) {
+        throw new Error(`GitHub API error: ${res.status}`);
+      }
+
+      const files = await res.json();
+
+      return files
+        .filter(file =>
+          file.type === "file" &&
+          /\.(png|jpe?g|gif|webp)$/i.test(file.name)
+        )
+        .map(file => ({
+          name: file.name,
+          path: file.path,
+          url: file.download_url
+        }));
+    }
+
+    async function loadRandomImage() {
+      const imgEl = document.getElementById("quiz-image");
+      const imageIdInput = document.getElementById("image_id");
+
+      const images = await getImagesFromGitHub();
+      const chosen = images[Math.floor(Math.random() * images.length)];
+
+      imgEl.src = chosen.url;
+      imgEl.alt = chosen.name;
+      imageIdInput.value = chosen.path;
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
       try {
-        const response = await fetch('/api/labels', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(record)
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          messageDiv.style.display = 'block';
-          messageDiv.style.color = 'green';
-          messageDiv.textContent = '✓ Label submitted successfully!';
-          
-          // Reset form (optional - you might want to keep values)
-          // document.getElementById('quiz-form').reset();
-        } else {
-          throw new Error(result.error || 'Failed to submit label');
-        }
-      } catch (error) {
-        messageDiv.style.display = 'block';
-        messageDiv.style.color = 'red';
-        messageDiv.textContent = '✗ Error: ' + error.message;
-        console.error('Error submitting label:', error);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit';
+        await loadRandomImage();
+      } catch (err) {
+        console.error("Error loading GitHub image:", err);
       }
     });
   </script>
+
+
+
 </body>
 </html>
